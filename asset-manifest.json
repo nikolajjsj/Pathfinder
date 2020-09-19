@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Pathfinder/static/css/main.cd7b3d9f.chunk.css",
+    "main.js": "/Pathfinder/static/js/main.fd85176d.chunk.js",
+    "main.js.map": "/Pathfinder/static/js/main.fd85176d.chunk.js.map",
+    "runtime-main.js": "/Pathfinder/static/js/runtime-main.a6f85a6b.js",
+    "runtime-main.js.map": "/Pathfinder/static/js/runtime-main.a6f85a6b.js.map",
+    "static/js/2.aa153ead.chunk.js": "/Pathfinder/static/js/2.aa153ead.chunk.js",
+    "static/js/2.aa153ead.chunk.js.map": "/Pathfinder/static/js/2.aa153ead.chunk.js.map",
+    "index.html": "/Pathfinder/index.html",
+    "precache-manifest.66c8c68922ae28636d000a218cbfd3e8.js": "/Pathfinder/precache-manifest.66c8c68922ae28636d000a218cbfd3e8.js",
+    "service-worker.js": "/Pathfinder/service-worker.js",
+    "static/css/main.cd7b3d9f.chunk.css.map": "/Pathfinder/static/css/main.cd7b3d9f.chunk.css.map",
+    "static/js/2.aa153ead.chunk.js.LICENSE.txt": "/Pathfinder/static/js/2.aa153ead.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a6f85a6b.js",
+    "static/js/2.aa153ead.chunk.js",
+    "static/css/main.cd7b3d9f.chunk.css",
+    "static/js/main.fd85176d.chunk.js"
+  ]
+}
