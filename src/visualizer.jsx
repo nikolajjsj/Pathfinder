@@ -3,9 +3,9 @@ import { dijkstra, getNodesInShortestPathOrder } from './algorhitms/djikstra'
 import Node from './node'
 
 const START_NODE_ROW = 7
-const START_NODE_COL = 4
+const START_NODE_COL = 3
 const END_NODE_ROW = 7
-const END_NODE_COL = 20
+const END_NODE_COL = 21
 
 export default function PathfinderVisualizer() {
   const [grid, setGrid] = useState(makeGrid)
@@ -47,7 +47,7 @@ export default function PathfinderVisualizer() {
   return (
     <div>
       <div className='button-row'>
-        <button id='reset-button' onClick={() => resetGrid(grid)}>
+        <button id='reset-button' onClick={() => setGrid(resetGrid())}>
           Reset
         </button>
         <button className='sort-button' onClick={() => visualizeDijkstra()}>
@@ -90,17 +90,16 @@ const makeGrid = () => {
   return grid
 }
 
-const resetGrid = (grid) => {
+const resetGrid = () => {
   for (let i = 0; i < 15; i++) {
     for (let j = 0; j < 25; j++) {
       let extra = ''
       if (i === START_NODE_ROW && j === START_NODE_COL) extra = 'node-start'
       if (i === END_NODE_ROW && j === END_NODE_COL) extra = 'node-end'
-      if (!grid[i][j].isWall) {
-        document.getElementById(`node-${i}-${j}`).className = `node ${extra}`
-      }
+      document.getElementById(`node-${i}-${j}`).className = `node ${extra}`
     }
   }
+  return makeGrid()
 }
 
 const createNode = (row, col) => {

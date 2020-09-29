@@ -45,27 +45,18 @@ button {
 
 .node {
   display: inline-block;
-  height: 2.8vh;
-  width: 2.8vh;
-  border: 0.1px solid var(--button-color);
+  height: 3.5vh;
+  width: 3.5vh;
   border-radius: 4px;
   margin: 1px;
-  padding: 8px;
   background-color: var(--button-color);
   color: var(--text-color);
 }
 
-@media (orientation: landscape) {
-  .node {
-    height: 2.8vh;
-    width: 2.8vh;
-  }
-}
-
 @media (orientation: portrait) {
   .node {
-    height: 2.8vw;
-    width: 2.8vw;
+    height: 3vw;
+    width: 3vw;
   }
 }
 
