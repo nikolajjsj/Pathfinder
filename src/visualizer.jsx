@@ -1,61 +1,65 @@
-import React, { useState } from "react";
-import { dijkstra, getNodesInShortestPathOrder } from "./algorhitms/djikstra";
-import Node from "./node";
+import React, { useState } from 'react'
+import { dijkstra, getNodesInShortestPathOrder } from './algorhitms/djikstra'
+import Node from './node'
 
-const START_NODE_ROW = 10;
-const START_NODE_COL = 5;
-const END_NODE_ROW = 10;
-const END_NODE_COL = 20;
+const START_NODE_ROW = 7
+const START_NODE_COL = 4
+const END_NODE_ROW = 7
+const END_NODE_COL = 20
 
 export default function PathfinderVisualizer() {
-  const [nodes, setNodes] = useState(makeNodes);
+  const [grid, setGrid] = useState(makeGrid)
 
   function animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
-          animateShortestPath(nodesInShortestPathOrder);
-        }, 10 * i);
-        return;
+          animateShortestPath(nodesInShortestPathOrder)
+        }, 10 * i)
+        return
       }
       setTimeout(() => {
-        const node = visitedNodesInOrder[i];
+        const node = visitedNodesInOrder[i]
         document.getElementById(`node-${node.row}-${node.col}`).className =
-          "node node-visited";
-      }, 10 * i);
+          'node node-visited'
+      }, 10 * i)
     }
   }
 
   function animateShortestPath(nodesInShortestPathOrder) {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
-        const node = nodesInShortestPathOrder[i];
+        const node = nodesInShortestPathOrder[i]
         document.getElementById(`node-${node.row}-${node.col}`).className =
-          "node node-shortest-path";
-      }, 50 * i);
+          'node node-shortest-path'
+      }, 50 * i)
     }
   }
 
   function visualizeDijkstra() {
-    const startNode = nodes[START_NODE_ROW][START_NODE_COL];
-    const endNode = nodes[END_NODE_ROW][END_NODE_COL];
-    const visitedNodesInOrder = dijkstra(nodes, startNode, endNode);
-    const nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode);
-    animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+    const startNode = grid[START_NODE_ROW][START_NODE_COL]
+    const endNode = grid[END_NODE_ROW][END_NODE_COL]
+    const visitedNodesInOrder = dijkstra(grid, startNode, endNode)
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode)
+    animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder)
   }
 
   return (
     <div>
-      <div className="button-row">
-        {/* <button onClick={() => setNodes(makeNodes)}>Reset</button> */}
-        <button onClick={() => visualizeDijkstra()}>Djikstra's</button>
+      <div className='button-row'>
+        <button id='reset-button' onClick={() => resetGrid(grid)}>
+          Reset
+        </button>
+        <button className='sort-button' onClick={() => visualizeDijkstra()}>
+          Djikstra's
+        </button>
       </div>
-      <div className="node-grid">
-        {nodes.map((row, rowIndex) => {
+      <div className='node-grid'>
+        {grid.map((row, rowIndex) => {
           return (
             <div className={rowIndex} key={rowIndex}>
               {row.map((node, colIndex) => {
-                const { row, col, isStart, isEnd, wall } = node;
+                const { row, col, isStart, isEnd, isWall } = node
                 return (
                   <Node
                     key={colIndex}
@@ -63,27 +67,41 @@ export default function PathfinderVisualizer() {
                     col={col}
                     isStart={isStart}
                     isEnd={isEnd}
-                    wall={wall}
+                    isWall={isWall}
+                    onClick={() => setGrid(wallToggled(grid, row, col))}
                   />
-                );
+                )
               })}
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }
 
-const makeNodes = () => {
-  let grid = [];
-  for (let i = 0; i < 25; i++) {
-    let row = [];
-    for (let j = 0; j < 25; j++) row.push(createNode(i, j));
-    grid.push(row);
+const makeGrid = () => {
+  let grid = []
+  for (let i = 0; i < 15; i++) {
+    let row = []
+    for (let j = 0; j < 25; j++) row.push(createNode(i, j))
+    grid.push(row)
   }
-  return grid;
-};
+  return grid
+}
+
+const resetGrid = (grid) => {
+  for (let i = 0; i < 15; i++) {
+    for (let j = 0; j < 25; j++) {
+      let extra = ''
+      if (i === START_NODE_ROW && j === START_NODE_COL) extra = 'node-start'
+      if (i === END_NODE_ROW && j === END_NODE_COL) extra = 'node-end'
+      if (!grid[i][j].isWall) {
+        document.getElementById(`node-${i}-${j}`).className = `node ${extra}`
+      }
+    }
+  }
+}
 
 const createNode = (row, col) => {
   return {
@@ -91,20 +109,20 @@ const createNode = (row, col) => {
     col,
     isStart: row === START_NODE_ROW && col === START_NODE_COL,
     isEnd: row === END_NODE_ROW && col === END_NODE_COL,
+    isVisited: false,
+    isWall: false,
     distance: Infinity,
-    visited: false,
-    wall: false,
     previousNode: null,
-  };
-};
+  }
+}
 
-const getNewGridWithWallToggled = (grid, row, col) => {
-  const newGrid = grid.slice();
-  const node = newGrid[row][col];
+const wallToggled = (grid, row, col) => {
+  const newGrid = grid.slice()
+  const node = newGrid[row][col]
   const newNode = {
     ...node,
     isWall: !node.isWall,
-  };
-  newGrid[row][col] = newNode;
-  return newGrid;
-};
+  }
+  newGrid[row][col] = newNode
+  return newGrid
+}
